@@ -1,0 +1,11 @@
+<div class="tiles-container" [@stagger]>
+  <div [@flyInOut]="'in'" *ngFor="let tile of tiles; trackBy: trackByFn">
+    <app-tile [item]="tile"></app-tile>
+  </div>
+</div>
+
+<div class="button-container">
+  <button (click)="shift()">shift</button>
+  <button (click)="add()">add</button>
+  <button (click)="remove()">remove</button>
+</div>
