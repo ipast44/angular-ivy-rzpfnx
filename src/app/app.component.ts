@@ -63,4 +63,8 @@ export class AppComponent {
   add() {
     this.tiles.push(111);
   }
+
+  remove() {
+    this.tiles.shift();
+  }
 }
