@@ -20,6 +20,21 @@ import { Component } from '@angular/core';
       state('default', style({})),
       transition('shifted <=> default', [animate('0s ease')]),
     ]),
+    trigger('shiftNew', [
+      state('0', style({ transform: 'translateX(0)' })),
+      state('1', style({ transform: 'translateX(100%)' })),
+      state('2', style({ transform: 'translateX(200%)' })),
+      state('3', style({ transform: 'translateX(300%)' })),
+      state('4', style({ transform: 'translateX(400%)' })),
+      transition(':enter', [
+        style({ transform: 'translateX(600%)' }),
+        animate(500),
+      ]),
+      transition(':leave', [
+        animate(500, style({ transform: 'translateX(-200%)' })),
+      ]),
+      transition('* <=> *', [animate('1s ease')]),
+    ]),
     trigger('flyInOut', [
       state('in', style({ transform: 'translateX(0)' })),
       transition(':enter', [
@@ -42,7 +57,13 @@ import { Component } from '@angular/core';
       ]),
     ]),
     trigger('stagger', [
-      transition(':enter', [query(':enter', stagger('.3s', [animateChild()]))]),
+      // transition(':enter', [query(':enter', stagger('.3s', [animateChild()]))]),
+      // transition(':leave', [query(':leave', stagger('.3s', [animateChild()]))]),
+      transition('* => *', [
+        query(':enter', stagger('.3s', [animateChild()])),
+        query(':leave', stagger('.3s', [animateChild()])),
+        // query('@shiftNew', stagger('.3s', [animateChild()])),
+      ]),
     ]),
   ],
 })
@@ -65,6 +86,24 @@ export class AppComponent {
   }
 
   remove() {
-    this.tiles.shift();
+    this.tiles[0] = null;
+    setTimeout(()=> {
+      this.tiles.shift();
+    }) 
+    // this.tiles.shift();
+  }
+
+  random() {
+    this.tiles = [3, 4];
+    setTimeout(() => {
+      this.tiles = [3, 4, 5, 6];
+    }, 0);
+  }
+
+  resetRnd() {
+    this.tiles = [3, 4];
+    setTimeout(() => {
+      this.tiles = [1, 2, 3, 4];
+    }, 0);
   }
 }
